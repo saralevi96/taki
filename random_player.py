@@ -1,3 +1,4 @@
+# ver
 import random
 
 from base_player import BasePlayer

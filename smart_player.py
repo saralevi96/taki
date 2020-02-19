@@ -1,4 +1,6 @@
+# ver
 import random
+
 
 from base_player import BasePlayer
 from enum_taki import Colors

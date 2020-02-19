@@ -1,3 +1,4 @@
+# ver
 from abc import abstractmethod
 
 from enum_taki import PlayerType
