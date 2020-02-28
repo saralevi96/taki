@@ -1,8 +1,9 @@
 # ver
 import random
-
+import taki
 from base_player import BasePlayer
 from enum_taki import Colors
+
 
 
 class normalPlayer(BasePlayer):
@@ -21,9 +22,5 @@ class normalPlayer(BasePlayer):
             taki.try_play_card(self, self.hand[int(user_input)])
 
     def get_color(self, taki):
-        color_in_hand = set(card.color for card in self.hand)
-        if color_in_hand:
-            taki.last_card.color = input(
-                f"Color changes on the table, {self} changes color to ").lower()
-        else:
-            taki.last_card.color = random.choice(Colors)
+        taki.last_card.color = input(
+             f"Color changes on the table, {self} changes color to ").lower()

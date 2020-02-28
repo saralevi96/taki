@@ -1,7 +1,11 @@
 # ver
 import random
+<<<<<<< HEAD
+import taki
+=======
 
 
+>>>>>>> eccb585d685840919c9e69bdf167466829263a9c
 from base_player import BasePlayer
 from enum_taki import Colors
 
