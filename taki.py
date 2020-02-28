@@ -2,8 +2,6 @@ import random
 
 from card import create_taki_deck, most_frequent_color
 from enum_taki import CardType
-from enum_taki import PlayerType
-from enum_taki import Colors
 
 
 class Taki:
@@ -101,15 +99,16 @@ class Taki:
             print(f"{player} got stop")
         elif first_card.type_card == CardType.changing_direction:
             self.players.reverse()
-            print(f"{player} got chang direction")
+            print(f"{player} got change direction")
         elif first_card.type_card == CardType.changes_color and not first_card.color:
             player.get_color(self)
 
     def is_playable_card(self, card):
         same_num = (card.num == self.last_card.num and card.num)
-        same_color = (card.color == self.last_card.color)
+        same_color = (card.color == self.last_card.color)#and card.color
         same_type = (card.type_card == self.last_card.type_card and card.type_card != CardType.normal)
-        is_changes_color = (card.type_card == CardType.changes_color)  # change color is none
+        is_changes_color = (card.type_card == CardType.changes_color)
+        # change color is none
         if same_color or same_num or same_type or is_changes_color:
             return True
         return False
@@ -148,7 +147,6 @@ class Taki:
 
             print(f"Deck:{self.amount_of_cards} cards, table card is {self.last_card}")
 
-
             game_over = self.is_game_over(player)
             if game_over:
                 break
@@ -156,6 +154,7 @@ class Taki:
             if self.should_activate_changing_direction:
                 self.players.reverse()
                 self.should_activate_changing_direction = False
+ 
             else:
                 player = self.players[0]
                 self.players.append(player)

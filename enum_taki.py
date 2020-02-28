@@ -3,13 +3,14 @@ class Colors:
     blue = "blue"
     yellow = "yellow"
     green = "green"
-
+    plus = "Plus"
 
 class CardType:
     normal = "Normal"
     changes_color = "Changes color"
     stop = "Stop"
     changing_direction = "Changing direction"
+
 
 
 class PlayerType:

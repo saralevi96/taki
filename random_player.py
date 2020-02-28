@@ -1,7 +1,8 @@
 import random
-
+import taki
 from base_player import BasePlayer
 from enum_taki import Colors
+
 
 
 class RandomPlayer(BasePlayer):
@@ -14,6 +15,7 @@ class RandomPlayer(BasePlayer):
         if playable_cards:
             card_choice = random.choice(playable_cards)
             taki.play_card(self, card_choice)
+
         else:
             taki.draw_card(self)
 
@@ -24,4 +26,3 @@ class RandomPlayer(BasePlayer):
             print(f"{self.name} change color to {taki.last_card.color}")
         else:
             taki.last_card.color = random.choice(Colors)
-

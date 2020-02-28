@@ -1,5 +1,5 @@
 import random
-
+import taki
 from base_player import BasePlayer
 from enum_taki import Colors
 
