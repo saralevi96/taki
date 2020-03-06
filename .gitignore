@@ -1,2 +1,3 @@
-
 .idea/*sa
+__pycache__/*
+*.pcy
