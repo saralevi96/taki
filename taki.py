@@ -1,5 +1,3 @@
-import random
-
 from card import create_taki_deck, most_frequent_color
 from enum_taki import CardType
 
@@ -14,6 +12,8 @@ class Taki:
         self.distribute_cards()
         # self.should_activate_stop = False
         self.should_activate_changing_direction = False
+        self.should_activate_plus = False
+        self.count_plus_2 = 0
 
     @property
     def last_card(self):
@@ -54,48 +54,75 @@ class Taki:
         print(f"{player.name} discard {card} (player left with {len(player.hand)} cards)")
 
     def draw_card(self, player):
+        if self.count_plus_2:
+            self.pick_all_plus_2(player)
+            return
         drawn_card = self.cards.pop()
         player.hand.append(drawn_card)
         print(f"{player.name} draw {drawn_card} from the deck ({self.amount_of_cards} cards left on deck)")
 
-    def try_play_normal_card(self, player):
-        for card in player.hand:
-            if card.type_card == CardType.normal and self.is_playable_card(card):
-                self.play_card(player, card)
-                return True
+    def next_player(self):
+        player = self.players[0]
+        self.players.append(player)
+        self.players.remove(player)
+    #
+    # def try_play_normal_card(self, player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.normal and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
+    #
+    #     return False
+    #
+    # def try_play_changing_direction(self, player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.changing_direction and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
+    #
+    #     return False
+    #
+    # def try_play_color_changer(self, player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.changes_color and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
+    #
+    #     return False
+    #
+    # def try_play_stop(self, player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.stop and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
+    #
+    #     return False
+    #
+    # def try_play_plus_2(self,player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.plus_2 and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
+    #
+    #
+    # def try_play_plus(self, player):
+    #     for card in player.hand:
+    #         if card.type_card == CardType.plus and self.is_playable_card(card):
+    #             self.play_card(player, card)
+    #             return True
 
-        return False
-
-    def try_play_changing_direction(self, player):
-        for card in player.hand:
-            if card.type_card == CardType.changing_direction and self.is_playable_card(card):
-                self.play_card(player, card)
-                return True
-
-        return False
-
-    def try_play_color_changer(self, player):
-        for card in player.hand:
-            if card.type_card == CardType.changes_color and self.is_playable_card(card):
-                self.play_card(player, card)
-                return True
-
-        return False
-
-    def try_play_stop(self, player):
-        for card in player.hand:
-            if card.type_card == CardType.stop and self.is_playable_card(card):
-                self.play_card(player, card)
-                return True
-
-        return False
+    def pick_all_plus_2(self,player):
+        for take_card in range(self.count_plus_2):
+            drawn_card = self.cards.pop()
+            player.hand.append(drawn_card)
+        print(f"{player.name} draw {self.count_plus_2} cards from deck because {self.count_plus_2/2}*(+2) cards")
+        self.count_plus_2 = 0
 
     def play_first_card(self):
         first_card = self.table[0]
         player = self.players[0]
         if first_card.type_card == CardType.stop:
-            self.players.append(player)
-            self.players.remove(player)
+            self.next_player()
             print(f"{player} got stop")
         elif first_card.type_card == CardType.changing_direction:
             self.players.reverse()
@@ -104,14 +131,15 @@ class Taki:
             player.get_color(self)
 
     def is_playable_card(self, card):
+
+        if self.count_plus_2:
+            return card.type_card == CardType.plus_2
         same_num = (card.num == self.last_card.num and card.num)
-        same_color = (card.color == self.last_card.color)#and card.color
+        same_color = (card.color == self.last_card.color)
         same_type = (card.type_card == self.last_card.type_card and card.type_card != CardType.normal)
         is_changes_color = (card.type_card == CardType.changes_color)
-        # change color is none
-        if same_color or same_num or same_type or is_changes_color:
-            return True
-        return False
+        return same_color or same_num or same_type or is_changes_color
+
 
     def play_card(self, player, card):
         self.discard_card(player, card)
@@ -124,6 +152,14 @@ class Taki:
             self.should_activate_changing_direction = True
         elif card.type_card == CardType.changes_color:
             player.get_color(self)
+        elif card.type_card == CardType.plus:
+            if not player.hand:
+                self.draw_card(player)
+            else:
+                self.should_activate_plus = True
+        elif card.type_card == CardType.plus_2:
+            self.count_plus_2 += 2
+            print(f"{self.players[1]} got a +{self.count_plus_2}")
 
     def try_play_card(self, player, card):
         if self.is_playable_card(card):
@@ -150,16 +186,15 @@ class Taki:
             game_over = self.is_game_over(player)
             if game_over:
                 break
-            # TODO: do also to stop
-            if self.should_activate_changing_direction:
+            # TODO: do also to stop ?
+            if self.should_activate_plus:
+                self.should_activate_plus = False
+
+            elif self.should_activate_changing_direction:
                 self.players.reverse()
                 self.should_activate_changing_direction = False
- 
             else:
-                player = self.players[0]
-                self.players.append(player)
-                self.players.remove(player)
-
+                self.next_player()
         player_min_card = min(self.players, key=lambda x: len(x.hand))
         if self.cards:
             print(f"The winner is {player_min_card} ")

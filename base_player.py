@@ -27,5 +27,4 @@ class BasePlayer:
     def get_color(self, taki):
         pass
 
-
 #     TODO add color function

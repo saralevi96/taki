@@ -28,9 +28,11 @@ def create_taki_deck():
             cards.append(Card(color, num, CardType.normal))
 
     cards += [Card(color=None, num=None, type_card=CardType.changes_color) for i in range(4)]
-    cards += [Card(color=color, num=None, type_card=CardType.stop) for color in colors]
-    cards += 2 * [Card(color=color, num=None, type_card=CardType.changing_direction) for color in colors]
-
+    for i in range(2):
+        cards += [Card(color=color, num=None, type_card=CardType.stop) for color in colors]
+        cards += [Card(color=color, num=None, type_card=CardType.changing_direction) for color in colors]
+        cards += [Card(color=color, num=None, type_card=CardType.plus) for color in colors]
+        cards += [Card(color=color, num=None, type_card=CardTtype.plus_2) for color in colors]
     random.shuffle(cards)
     return cards
 
