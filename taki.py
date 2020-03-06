@@ -150,7 +150,7 @@ class Taki:
             game_over = self.is_game_over(player)
             if game_over:
                 break
-            # TODO לעשות ככה גם ל stop ?
+            # TODO: do also to stop
             if self.should_activate_changing_direction:
                 self.players.reverse()
                 self.should_activate_changing_direction = False

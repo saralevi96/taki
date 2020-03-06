@@ -1,3 +1,4 @@
+# ver
 import random
 import taki
 from base_player import BasePlayer

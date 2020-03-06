@@ -1,3 +1,4 @@
+# ver
 import random
 
 from enum_taki import CardType, Colors

@@ -6,6 +6,3 @@ def removeElement(nums, val):
     nums = nums[a:]
     print(nums)
     return len(nums)
-
-
-print(removeElement([3,2,2,3], 3))
