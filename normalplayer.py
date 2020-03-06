@@ -1,4 +1,4 @@
-# ver
+ # ver
 import random
 import taki
 from base_player import BasePlayer
@@ -12,7 +12,8 @@ class normalPlayer(BasePlayer):
             print(f"  enter {self.hand.index(card)} for {card}")
         is_valid_index = False
         user_input = None
-        if taki.count_plus_2:input(f'''you need put +2 or enter "take card" take all card in +2''')
+        if taki.count_plus_2:
+            print(f'''you need put +2 or enter "take card" take all card in +2''')
         while not (user_input == "take card" or is_valid_index):
             user_input = input('if you do not have a card to download enter "take card"')
             is_valid_index = (user_input.isdigit() and 0 <= int(user_input) < len(self.hand))

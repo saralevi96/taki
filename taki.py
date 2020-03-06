@@ -65,53 +65,8 @@ class Taki:
         player = self.players[0]
         self.players.append(player)
         self.players.remove(player)
-    #
-    # def try_play_normal_card(self, player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.normal and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
-    #
-    #     return False
-    #
-    # def try_play_changing_direction(self, player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.changing_direction and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
-    #
-    #     return False
-    #
-    # def try_play_color_changer(self, player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.changes_color and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
-    #
-    #     return False
-    #
-    # def try_play_stop(self, player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.stop and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
-    #
-    #     return False
-    #
-    # def try_play_plus_2(self,player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.plus_2 and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
-    #
-    #
-    # def try_play_plus(self, player):
-    #     for card in player.hand:
-    #         if card.type_card == CardType.plus and self.is_playable_card(card):
-    #             self.play_card(player, card)
-    #             return True
 
-    def pick_all_plus_2(self,player):
+    def pick_all_plus_2(self, player):
         for take_card in range(self.count_plus_2):
             drawn_card = self.cards.pop()
             player.hand.append(drawn_card)
